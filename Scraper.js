@@ -5,10 +5,14 @@ const validUrl = require('valid-url');
 
 class Scraper {
   constructor({ argv }) {
-    const { posts } = argv;
-    this.NumOfPosts = posts || 10;
+    this.NumOfPosts = this.isInputValid(argv) ? argv.posts : 10;
     this.api = 'https://hacker-news.firebaseio.com/v0';
   }
+  isInputValid(argv) {
+    const { posts } = argv;
+    return this.isIntegerFieldValid(posts) && posts < 100;
+  }
+
   async getTopPostIds() {
     const { data } = await axios.get(`${this.api}/topstories.json`);
     return data;
@@ -29,25 +33,25 @@ class Scraper {
     return posts.map(post => _.pick(post, ['by', 'score', 'url', 'title', 'kids', 'index']));
   }
 
-  static validatePosts(posts) {
+  validatePosts(posts) {
     return posts.filter(post =>
-      this.validateStringField(post.title) &&
-      this.validateStringField(post.by) &&
-      this.validateIntegerField(post.score) &&
-      this.validateIntegerField(post.kids) &&
-      this.validateIntegerField(post.index) &&
-      this.validateURIField(post.url));
+      this.isStringFieldValid(post.title) &&
+      this.isStringFieldValid(post.by) &&
+      this.isIntegerFieldValid(post.score) &&
+      this.isIntegerFieldValid(post.kids) &&
+      this.isIntegerFieldValid(post.index) &&
+      this.isURIFieldValid(post.url));
   }
 
-  static validateStringField(field) {
-    return field && typeof field === 'string' && field.length <= 256;
+  static isStringFieldValid(field) {
+    return typeof field === 'string' && field.length <= 256;
   }
 
-  static validateIntegerField(field) {
+  static isIntegerFieldValid(field) {
     return typeof field === 'number' && field >= 0;
   }
 
-  static async validateURIField(field) {
+  static isURIFieldValid(field) {
     return validUrl.isUri(field);
   }
 
