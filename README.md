@@ -8,9 +8,9 @@ Setup:
 
 Run:
 
-```node app.js // returns 10 posts by default```
+```node app.js                 // returns 10 posts by default```
 
-```node app.js --posts 2 // get the first 2 posts``` 
+```node app.js --posts 2       // get the first 2 posts``` 
 
 Sample Output:
 
