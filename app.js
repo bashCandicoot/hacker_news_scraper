@@ -2,7 +2,7 @@ const Scraper = require('./Scraper');
 const parseArgs = require('minimist');
 
 const argv = parseArgs(process.argv.slice(2));
-const scraper = new Scraper({ argv });
+const scraper = new Scraper(argv);
 
 async function main() {
   const topPostIds = await scraper.getTopPostIds();

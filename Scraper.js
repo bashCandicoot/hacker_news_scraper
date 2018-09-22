@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 const validUrl = require('valid-url');
 
 class Scraper {
-  constructor({ argv }) {
+  constructor(argv) {
     this.NumOfPosts = Scraper.isInputValid(argv) ? argv.posts : 10;
     this.api = 'https://hacker-news.firebaseio.com/v0';
   }
