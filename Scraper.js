@@ -1,6 +1,7 @@
 const axios = require('axios');
 const _ = require('lodash');
 const Promise = require('bluebird');
+const validUrl = require('valid-url');
 
 class Scraper {
   constructor({ argv }) {
@@ -34,7 +35,8 @@ class Scraper {
       this.validateStringField(post.by) &&
       this.validateIntegerField(post.score) &&
       this.validateIntegerField(post.kids) &&
-      this.validateIntegerField(post.index));
+      this.validateIntegerField(post.index) &&
+      this.validateURIField(post.url));
   }
 
   static validateStringField(field) {
@@ -43,6 +45,10 @@ class Scraper {
 
   static validateIntegerField(field) {
     return typeof field === 'number' && field >= 0;
+  }
+
+  static async validateURIField(field) {
+    return validUrl.isUri(field);
   }
 
   static mapPostKeys(posts) {

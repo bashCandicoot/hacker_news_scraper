@@ -20,7 +20,8 @@
     "axios": "^0.18.0",
     "bluebird": "^3.5.2",
     "lodash": "^4.17.11",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
