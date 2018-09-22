@@ -5,12 +5,12 @@ const validUrl = require('valid-url');
 
 class Scraper {
   constructor({ argv }) {
-    this.NumOfPosts = this.isInputValid(argv) ? argv.posts : 10;
+    this.NumOfPosts = Scraper.isInputValid(argv) ? argv.posts : 10;
     this.api = 'https://hacker-news.firebaseio.com/v0';
   }
-  isInputValid(argv) {
+  static isInputValid(argv) {
     const { posts } = argv;
-    return this.isIntegerFieldValid(posts) && posts < 100;
+    return Scraper.isIntegerFieldValid(posts) && posts < 100;
   }
 
   async getTopPostIds() {
@@ -33,7 +33,7 @@ class Scraper {
     return posts.map(post => _.pick(post, ['by', 'score', 'url', 'title', 'kids', 'index']));
   }
 
-  validatePosts(posts) {
+  static validatePosts(posts) {
     return posts.filter(post =>
       this.isStringFieldValid(post.title) &&
       this.isStringFieldValid(post.by) &&
