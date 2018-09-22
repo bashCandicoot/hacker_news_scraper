@@ -10,24 +10,39 @@ class Scraper {
   }
   async getTopPostIds() {
     const { data } = await axios.get(`${this.api}/topstories.json`);
-    this.topPostIds = data;
-    return this.topPostIds;
+    return data;
   }
 
   getTopPostsSubset(postIds) {
-    this.postSubset = postIds.slice(0, this.NumOfPosts);
-    return this.postSubset;
+    return postIds.slice(0, this.NumOfPosts);
   }
 
   async attachContentToPosts(postIds) {
-    return Promise.map(postIds, async (postId) => {
+    return Promise.map(postIds, async (postId, index) => {
       const { data } = await axios.get(`${this.api}/item/${postId}.json`);
-      return data;
+      return { ...data, index: index + 1 };
     });
   }
 
   static pickFields(posts) {
-    return posts.map(post => _.pick(post, ['by', 'score', 'url', 'title']));
+    return posts.map(post => _.pick(post, ['by', 'score', 'url', 'title', 'kids', 'index']));
+  }
+
+  static validatePosts(posts) {
+    return posts.filter(post =>
+      this.validateStringField(post.title) &&
+      this.validateStringField(post.by) &&
+      this.validateIntegerField(post.score) &&
+      this.validateIntegerField(post.kids) &&
+      this.validateIntegerField(post.index));
+  }
+
+  static validateStringField(field) {
+    return field && typeof field === 'string' && field.length <= 256;
+  }
+
+  static validateIntegerField(field) {
+    return typeof field === 'number' && field >= 0;
   }
 
   static mapPostKeys(posts) {
@@ -37,14 +52,15 @@ class Scraper {
         case 'score': return 'points';
         case 'url': return 'uri';
         case 'title': return 'title';
+        case 'kids': return 'comments';
+        case 'index': return 'rank';
         default:
-          throw new Error('Unexpected key!');
       }
     }));
   }
 
-  static validatePosts(posts) {
-    return posts;
+  static countComments(posts) {
+    return posts.map(post => ({ ..._.omit(post, ['kids']), kids: _.get(post, 'kids.length', 0) }));
   }
 }
 
