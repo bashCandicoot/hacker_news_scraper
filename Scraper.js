@@ -6,7 +6,7 @@ const validUrl = require('valid-url');
 class Scraper {
   constructor({ argv }) {
     const { posts } = argv;
-    this.NumOfPosts = posts;
+    this.NumOfPosts = posts || 10;
     this.api = 'https://hacker-news.firebaseio.com/v0';
   }
   async getTopPostIds() {
