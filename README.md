@@ -1,6 +1,6 @@
 # Hacker News Scraper (Node.js)
 
-Command line utility to get the current top posts on Hack News.
+Command line utility to get the current top posts on Hacker News.
 
 Setup:
 
