@@ -55,7 +55,7 @@ class Scraper {
     return validUrl.isUri(field);
   }
 
-  static mapPostKeys(posts) {
+  static renamePostKeys(posts) {
     return posts.map(post => _.mapKeys(post, (value, key) => {
       switch (key) {
         case 'by': return 'author';
@@ -69,8 +69,12 @@ class Scraper {
     }));
   }
 
-  static countComments(posts) {
-    return posts.map(post => ({ ..._.omit(post, ['kids']), kids: _.get(post, 'kids.length', 0) }));
+  static countKids(posts) {
+    return posts.map(post =>
+      ({
+        ..._.omit(post, ['kids']),
+        kids: _.get(post, 'kids.length', 0),
+      }));
   }
 }
 

@@ -10,9 +10,9 @@ async function main() {
   const posts = await scraper.attachContentToPosts(postIds);
 
   const postsPickedFields = Scraper.pickFields(posts);
-  const postsWithCountedComments = Scraper.countComments(postsPickedFields);
-  const validatedPosts = Scraper.validatePosts(postsWithCountedComments);
-  const mappedPosts = Scraper.mapPostKeys(validatedPosts);
+  const postsWithCountedKids = Scraper.countKids(postsPickedFields);
+  const validatedPosts = Scraper.validatePosts(postsWithCountedKids);
+  const mappedPosts = Scraper.renamePostKeys(validatedPosts);
 
   console.log(mappedPosts);
   return mappedPosts;
