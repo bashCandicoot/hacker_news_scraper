@@ -9,9 +9,13 @@ async function main() {
   const postIds = scraper.getTopPostsSubset(topPostIds);
   const posts = await scraper.attachContentToPosts(postIds);
 
-  const pickedFields = Scraper.pickFields(posts);
-  const mappedPosts = Scraper.mapPostKeys(pickedFields);
+  const postsPickedFields = Scraper.pickFields(posts);
+  const postsWithCountedComments = Scraper.countComments(postsPickedFields);
+  const validatedPosts = Scraper.validatePosts(postsWithCountedComments);
+  const mappedPosts = Scraper.mapPostKeys(validatedPosts);
+
   console.log(mappedPosts);
+  return mappedPosts;
 }
 
 
