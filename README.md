@@ -8,7 +8,7 @@ Setup:
 
 Run:
 
-```node hacker_news_scraper.js -h```
+```node hacker_news_scraper.js --help```
   
 ```
 Hacker News Scraper
