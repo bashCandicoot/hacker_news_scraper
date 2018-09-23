@@ -7,23 +7,23 @@ const validUrl = require('valid-url');
 
 class Scraper {
   constructor(argv) {
-    this.checkArguments(argv);
     this.api = 'https://hacker-news.firebaseio.com/v0';
+    this.NumOfPosts = 10;
+    this.checkArguments(argv || {});
   }
+
   checkArguments(argv) {
-    this.validatePosts(argv.p || argv.posts);
-    if (argv.h || argv.help) Scraper.printHelpMessage();
-    if (argv.v || argv.version) Scraper.printVersionMessage();
+    if (argv.h || argv.help) this.printHelpMessage();
+    if (argv.v || argv.version) this.printVersionMessage();
+    if ('p' in argv || 'posts' in argv) this.validatePosts(argv.p || argv.posts);
   }
 
   validatePosts(posts) {
     if (posts && Scraper.isPostsInputValid(posts)) {
       this.NumOfPosts = posts;
-    } else if (posts && !Scraper.isPostsInputValid(posts)) {
-      console.error('--posts must be a valid integer less than or equal to 100');
-      process.exit(1);
     } else {
-      this.NumOfPosts = 10;
+      this.invalidPostArgument = true;
+      console.error('--posts must be a valid integer less than or equal to 100');
     }
   }
 
@@ -31,7 +31,8 @@ class Scraper {
     return Scraper.isIntegerFieldValid(input) && input <= 100;
   }
 
-  static printHelpMessage() {
+  printHelpMessage() {
+    this.help = true;
     console.log('\nHacker News Scraper\n' +
       '   Command line utility to get the current top posts on Hacker News.\n\n' +
       'Usage:\n' +
@@ -40,12 +41,11 @@ class Scraper {
       '   -h --help        Show this screen\n' +
       '   -v --version     Show version\n' +
       '   -p --posts       Retrieve -p number of posts [default: 10]\n');
-    process.exit(1);
   }
 
-  static printVersionMessage() {
+  printVersionMessage() {
+    this.version = true;
     console.log(`v${version}`);
-    process.exit(1);
   }
 
   async getTopPostIds() {
