@@ -1,3 +1,5 @@
+const { version } = require('./package.json');
+
 const axios = require('axios');
 const _ = require('lodash');
 const Promise = require('bluebird');
@@ -5,14 +7,21 @@ const validUrl = require('valid-url');
 
 class Scraper {
   constructor(argv) {
-    this.validateInputs(argv);
+    this.checkArguments(argv);
     this.api = 'https://hacker-news.firebaseio.com/v0';
   }
-  validateInputs(argv) {
-    if (argv.posts && Scraper.isPostsInputValid(argv.posts)) {
-      this.NumOfPosts = argv.posts;
-    } else if (argv.posts && !Scraper.isPostsInputValid(argv.posts)) {
-      throw new Error('--posts must be a valid integer less than or equal to 100');
+  checkArguments(argv) {
+    this.validatePosts(argv.p || argv.posts);
+    if (argv.h || argv.help) Scraper.printHelpMessage();
+    if (argv.v || argv.version) Scraper.printVersionMessage();
+  }
+
+  validatePosts(posts) {
+    if (posts && Scraper.isPostsInputValid(posts)) {
+      this.NumOfPosts = posts;
+    } else if (posts && !Scraper.isPostsInputValid(posts)) {
+      console.error('--posts must be a valid integer less than or equal to 100');
+      process.exit(1);
     } else {
       this.NumOfPosts = 10;
     }
@@ -20,6 +29,22 @@ class Scraper {
 
   static isPostsInputValid(input) {
     return Scraper.isIntegerFieldValid(input) && input <= 100;
+  }
+
+  static printHelpMessage() {
+    console.log('\nHacker News Scraper\n\n' +
+      'Usage:\n' +
+      '   node hacker_news_scraper.js\n\n' +
+      'Options:\n' +
+      '   -h --help        Show this screen\n' +
+      '   -v --version     Show version\n' +
+      '   -p --posts       Retrieve -p number of posts [default: 10]\n');
+    process.exit(1);
+  }
+
+  static printVersionMessage() {
+    console.log(`v${version}`);
+    process.exit(1);
   }
 
   async getTopPostIds() {
@@ -40,6 +65,14 @@ class Scraper {
 
   static pickFields(posts) {
     return posts.map(post => _.pick(post, ['by', 'score', 'url', 'title', 'kids', 'index']));
+  }
+
+  static countKids(posts) {
+    return posts.map(post =>
+      ({
+        ..._.omit(post, ['kids']),
+        kids: _.get(post, 'kids.length', 0),
+      }));
   }
 
   static validatePosts(posts) {
@@ -76,14 +109,6 @@ class Scraper {
         default:
       }
     }));
-  }
-
-  static countKids(posts) {
-    return posts.map(post =>
-      ({
-        ..._.omit(post, ['kids']),
-        kids: _.get(post, 'kids.length', 0),
-      }));
   }
 }
 
