@@ -5,6 +5,8 @@ async function main() {
   const argv = parseArgs(process.argv.slice(2));
   const scraper = new Scraper(argv);
 
+  if (scraper.help || scraper.version || scraper.invalidPostArgument) return;
+
   const topPostIds = await scraper.getTopPostIds();
   const postIds = scraper.getTopPostsSubset(topPostIds);
   const posts = await scraper.attachContentToPosts(postIds);
@@ -15,10 +17,10 @@ async function main() {
   const mappedPosts = Scraper.renamePostKeys(validatedPosts);
 
   console.log(mappedPosts);
-  return mappedPosts;
 }
 
 
 main();
 
-// add --help option
+// comments
+
