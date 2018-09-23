@@ -23,7 +23,7 @@ Example:
   
 ```node hacker_news_scraper.js -p 2```  
  
-Sample Output:
+Example Output:
 
 ```
 [ { author: 'TheAuditor',
