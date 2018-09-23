@@ -46,15 +46,16 @@ Output:
   
 Libraries Used:  
 
-  ```axios, lodash, minimist```
+  ```axios, lodash, minimist```  
   I used these highly trusted libraries to make performaing certain actions much more readable and succinct.
   
-  ```chai, mocha, should, sinon, valid-url```  
+  ```chai, mocha, should, sinon, valid-url```    
   I used these libraries to help construct readable and maintainable tests. It is still possible to write tests without them, but they provide much nicer syntax for testing and allow me to mock certain functions.
 
-  ```valid-url``` is a library I hadn't used before, checking if a URI is valid is a common need and delegating this to a popular package (191,666 weekly downloads) is the correct thing to do.
+  ```valid-url```  
+  This is a library I hadn't used before, checking if a URI is valid is a common need and delegating this to a popular package (191,666 weekly downloads) is the correct thing to do.
 
-  ```bluebird```
+  ```bluebird```  
   I used ```Promise.map``` to map over the postIds and make a further request to obtain the content for that post.
 
 
