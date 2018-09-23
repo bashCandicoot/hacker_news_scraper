@@ -5,13 +5,12 @@ Command line utility to get the current top posts on Hacker News.
 Setup:
 
 ```npm install``` 
-
-Usage:  
   
 ```
-Hacker News Scraper  
+Hacker News Scraper
+   Command line utility to get the current top posts on Hacker News.    
   
-Usage:  
+Usage:
    node hacker_news_scraper.js  
   
 Options:  
