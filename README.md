@@ -25,7 +25,7 @@ Options:
   
 Example:  
   
-```node hacker_news_scraper.js -p 2```  
+```node hacker_news_scraper.js -posts 2```  
  
 Output:
 
