@@ -5,12 +5,21 @@ const validUrl = require('valid-url');
 
 class Scraper {
   constructor(argv) {
-    this.NumOfPosts = Scraper.isInputValid(argv) ? argv.posts : 10;
+    this.validateInputs(argv);
     this.api = 'https://hacker-news.firebaseio.com/v0';
   }
-  static isInputValid(argv) {
-    const { posts } = argv;
-    return Scraper.isIntegerFieldValid(posts) && posts < 100;
+  validateInputs(argv) {
+    if (argv.posts && Scraper.isPostsInputValid(argv.posts)) {
+      this.NumOfPosts = argv.posts;
+    } else if (argv.posts && !Scraper.isPostsInputValid(argv.posts)) {
+      throw new Error('--posts must be a valid integer less than or equal to 100');
+    } else {
+      this.NumOfPosts = 10;
+    }
+  }
+
+  static isPostsInputValid(input) {
+    return Scraper.isIntegerFieldValid(input) && input <= 100;
   }
 
   async getTopPostIds() {
