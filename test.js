@@ -63,4 +63,169 @@ describe('Scraper', () => {
     scraper4.should.have.property('invalidPostArgument', true);
     scraper5.should.have.property('invalidPostArgument', true);
   });
+
+  it('should get top post ids', async () => {
+    const scraper = new Scraper();
+    scraper.getTopPostIds = sinon.fake.returns([1, 2, 3]);
+    scraper.topPostIds = scraper.getTopPostIds();
+
+    scraper.should.have.property('topPostIds').and.be.a.Array;
+  });
+
+  it('should get top post ids subset', async () => {
+    const scraper = new Scraper();
+    scraper.getTopPostIds = sinon.fake.returns([1, 2, 3, 4, 5,
+      6, 7, 8, 9, 10,
+      11, 12, 13, 14, 15]);
+    scraper.topPostIds = scraper.getTopPostIds();
+    scraper.getTopPostsSubset();
+
+    scraper.should.have.property('postIds').and.be.a.Array;
+    scraper.should.have.property('postIds').with.lengthOf(scraper.NumOfPosts);
+  });
+
+  it('should attach content to post ids subset', async () => {
+    const argv = { posts: 2 };
+    const scraper = new Scraper(argv);
+    scraper.getTopPostsSubset = sinon.fake.returns([1, 2]);
+    scraper.postIds = scraper.getTopPostsSubset();
+
+    scraper.attachContentToPosts = sinon.fake.returns([{
+      author: 'user982',
+      points: 266,
+      title: 'Why I’m leaving Chrome',
+      uri: 'https://blog.cryptographyengineering.com/2018/09/23/why-im-leaving-chrome/',
+      index: 1,
+      comments: 23,
+    },
+    {
+      author: 'lowe',
+      points: 10,
+      title: 'Fair Trending: Objectively-Ranked Trending YouTube Videos',
+      uri: 'https://fairtrending.com',
+      index: 2,
+      comments: 4,
+    }]);
+
+    scraper.posts = scraper.attachContentToPosts();
+
+    scraper.should.have.property('posts').and.be.a.Array;
+    scraper.should.have.property('posts').with.lengthOf(scraper.NumOfPosts);
+
+    scraper.posts[0].should.have.property('author', 'user982');
+    scraper.posts[0].should.have.property('title', 'Why I’m leaving Chrome');
+  });
+
+  it('should validate posts', async () => {
+    const scraper = new Scraper();
+
+    scraper.postsCountedKids = [{
+      by: 'user982',
+      score: 266,
+      title: 'Why I’m leaving Chrome',
+      url: 'https://blog.cryptographyengineering.com/2018/09/23/why-im-leaving-chrome/',
+      kids: 23,
+      index: 1,
+    },
+    {
+      by: 'lowe',
+      score: 10,
+      title: 'Fair Trending: Objectively-Ranked Trending YouTube Videos',
+      url: 'https://fairtrending.com',
+      kids: 4,
+      index: 2,
+    }];
+
+    scraper.validatePostsFields();
+
+    scraper.should.have.property('validPosts').and.be.a.Array;
+    scraper.validPosts[0].should.be.a.Object;
+    scraper.validPosts[1].should.be.a.Object;
+  });
+
+  it('should fail to validate post url', async () => {
+    const scraper = new Scraper();
+
+    scraper.postsCountedKids = [
+      {
+        by: 'lowe',
+        score: 10,
+        title: 'Fair Trending: Objectively-Ranked Trending YouTube Videos',
+        url: [],
+        kids: 4,
+        index: 2,
+      },
+    ];
+
+    try {
+      scraper.validatePostsFields();
+    } catch (err) {
+      err.message.should.equal('uri.match is not a function');
+    }
+  });
+
+  it('should fail to validate title length', async () => {
+    const scraper = new Scraper();
+
+    scraper.postsCountedKids = [
+      {
+        by: 'lowe',
+        score: 10,
+        title: 'loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong',
+        url: 'https://fairtrending.com',
+        index: 2,
+        kids: 4,
+      },
+    ];
+
+    scraper.validatePostsFields();
+    scraper.should.have.property('validPosts').and.be.a.Array;
+    scraper.should.have.property('validPosts').with.lengthOf(0);
+  });
+
+  it('should fail to validate score', async () => {
+    const scraper = new Scraper();
+
+    scraper.postsCountedKids = [
+      {
+        by: 'lowe',
+        score: -1,
+        title: 'Fair Trending: Objectively-Ranked Trending YouTube Videos',
+        url: 'https://fairtrending.com',
+        index: 2,
+        kids: 4,
+      },
+    ];
+
+    scraper.validatePostsFields();
+    scraper.should.have.property('validPosts').and.be.a.Array;
+    scraper.should.have.property('validPosts').with.lengthOf(0);
+  });
+
+  it('should remap object keys', async () => {
+    const scraper = new Scraper();
+
+    scraper.validPosts = [
+      {
+        by: 'lowe',
+        score: 12,
+        title: 'Fair Trending: Objectively-Ranked Trending YouTube Videos',
+        url: 'https://fairtrending.com',
+        index: 2,
+        kids: 4,
+      },
+    ];
+
+    scraper.renamePostKeys();
+
+    scraper.should.have.property('renamedPosts').and.be.a.Array;
+    scraper.should.have.property('validPosts').with.lengthOf(1);
+
+    scraper.renamedPosts[0].should.have.property('points', 12);
+    scraper.renamedPosts[0].should.have.property('author', 'lowe');
+    scraper.renamedPosts[0].should.have.property('uri', 'https://fairtrending.com');
+    scraper.renamedPosts[0].should.have.property('title', 'Fair Trending: Objectively-Ranked Trending YouTube Videos');
+    scraper.renamedPosts[0].should.have.property('comments', 4);
+    scraper.renamedPosts[0].should.have.property('rank', 2);
+  });
 });
