@@ -30,18 +30,18 @@ Example:
 Output:
 
 ```
-[ { author: 'TheAuditor',
-    points: 29,
-    uri: 'https://www.quantamagazine.org/machine-learning-confronts-the-elephant-in-the-room-20180920/',
-    title: 'Machine Learning Confronts the Elephant in the Room',
+[ { author: 'user982',
+    points: 525,
+    uri: 'https://blog.cryptographyengineering.com/2018/09/23/why-im-leaving-chrome/',
+    title: 'Why I’m leaving Chrome',
     rank: 1,
-    comments: 5 },
-  { author: 'anoplus',
-    points: 119,
-    uri: 'https://www.nytimes.com/2018/09/20/opinion/sunday/sleep-school-start-time-screens-teenagers.html',
-    title: 'Let Teenagers Sleep In',
+    comments: 40 },
+  { author: 'lowe',
+    points: 29,
+    uri: 'https://fairtrending.com',
+    title: 'Fair Trending: Objectively-Ranked Trending YouTube Videos',
     rank: 2,
-    comments: 12 } ]
+    comments: 10 } ]
 ```  
   
 Libraries Used:  
