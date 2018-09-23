@@ -16,8 +16,9 @@ Usage:
 Options:  
    -h --help        Show this screen  
    -v --version     Show version  
-   -p --posts       Retrieve -p number of posts [default: 10]```
-
+   -p --posts       Retrieve -p number of posts [default: 10]
+```  
+  
 Sample Output:
 
 ```
