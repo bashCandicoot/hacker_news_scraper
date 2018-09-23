@@ -56,6 +56,6 @@ Libraries Used:
   This is a library I hadn't used before, checking if a URI is valid is a common need and delegating this to a popular package (191,666 weekly downloads) is the correct thing to do.
 
   ```bluebird```  
-  I used ```Promise.map``` to map over the postIds and make a further request to obtain the content for that post.
+  I used ```Promise.map``` to map over the ```postIds``` and make a further request to obtain the content for that post.
 
 
