@@ -50,40 +50,40 @@ class Scraper {
 
   async getTopPostIds() {
     const { data } = await axios.get(`${this.api}/topstories.json`);
-    return data;
+    this.topPostIds = data;
   }
 
-  getTopPostsSubset(postIds) {
-    return postIds.slice(0, this.NumOfPosts);
+  getTopPostsSubset() {
+    this.postIds = this.topPostIds.slice(0, this.NumOfPosts);
   }
 
-  async attachContentToPosts(postIds) {
-    return Promise.map(postIds, async (postId, index) => {
+  async attachContentToPosts() {
+    this.posts = await Promise.map(this.postIds, async (postId, index) => {
       const { data } = await axios.get(`${this.api}/item/${postId}.json`);
       return { ...data, index: index + 1 };
     });
   }
 
-  static pickFields(posts) {
-    return posts.map(post => _.pick(post, ['by', 'score', 'url', 'title', 'kids', 'index']));
+  pickFields() {
+    this.posts.map(post => _.pick(post, ['by', 'score', 'url', 'title', 'kids', 'index']));
   }
 
-  static countKids(posts) {
-    return posts.map(post =>
+  countKids() {
+    this.postsCountedKids = this.posts.map(post =>
       ({
         ..._.omit(post, ['kids']),
         kids: _.get(post, 'kids.length', 0),
       }));
   }
 
-  static validatePosts(posts) {
-    return posts.filter(post =>
-      this.isStringFieldValid(post.title) &&
-      this.isStringFieldValid(post.by) &&
-      this.isIntegerFieldValid(post.score) &&
-      this.isIntegerFieldValid(post.kids) &&
-      this.isIntegerFieldValid(post.index) &&
-      this.isURIFieldValid(post.url));
+  validatePostsFields() {
+    this.validPosts = this.postsCountedKids.filter(post =>
+      Scraper.isStringFieldValid(post.title) &&
+      Scraper.isStringFieldValid(post.by) &&
+      Scraper.isIntegerFieldValid(post.score) &&
+      Scraper.isIntegerFieldValid(post.kids) &&
+      Scraper.isIntegerFieldValid(post.index) &&
+      Scraper.isURIFieldValid(post.url));
   }
 
   static isStringFieldValid(field) {
@@ -98,8 +98,8 @@ class Scraper {
     return validUrl.isUri(field);
   }
 
-  static renamePostKeys(posts) {
-    return posts.map(post => _.mapKeys(post, (value, key) => {
+  renamePostKeys() {
+    this.renamedPosts = this.validPosts.map(post => _.mapKeys(post, (value, key) => {
       switch (key) {
         case 'by': return 'author';
         case 'score': return 'points';

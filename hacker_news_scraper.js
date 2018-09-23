@@ -7,16 +7,15 @@ async function main() {
 
   if (scraper.help || scraper.version || scraper.invalidPostArgument) return;
 
-  const topPostIds = await scraper.getTopPostIds();
-  const postIds = scraper.getTopPostsSubset(topPostIds);
-  const posts = await scraper.attachContentToPosts(postIds);
+  await scraper.getTopPostIds();
+  scraper.getTopPostsSubset();
+  await scraper.attachContentToPosts();
+  scraper.pickFields();
+  scraper.countKids();
+  scraper.validatePostsFields();
+  scraper.renamePostKeys();
 
-  const postsPickedFields = Scraper.pickFields(posts);
-  const postsWithCountedKids = Scraper.countKids(postsPickedFields);
-  const validatedPosts = Scraper.validatePosts(postsWithCountedKids);
-  const mappedPosts = Scraper.renamePostKeys(validatedPosts);
-
-  console.log(mappedPosts);
+  console.log(scraper.renamedPosts);
 }
 
 
