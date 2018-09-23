@@ -8,9 +8,11 @@ Setup:
 
 Run:
 
-```node hacker_news_scraper.js```             // returns 10 posts by default
+```node hacker_news_scraper.js```
+// returns first 10 posts by default
 
-```node hacker_news_scraper.js --posts 2```   // get the first 2 posts
+```node hacker_news_scraper.js --posts 2```
+// return first 2 posts
 
 Sample Output:
 
