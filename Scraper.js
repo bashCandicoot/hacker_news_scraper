@@ -32,7 +32,8 @@ class Scraper {
   }
 
   static printHelpMessage() {
-    console.log('\nHacker News Scraper\n\n' +
+    console.log('\nHacker News Scraper\n' +
+      '   Command line utility to get the current top posts on Hacker News.\n\n' +
       'Usage:\n' +
       '   node hacker_news_scraper.js\n\n' +
       'Options:\n' +
