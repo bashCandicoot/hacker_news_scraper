@@ -57,5 +57,11 @@ Libraries Used:
 
   ```bluebird```  
   I used ```Promise.map``` to map over the ```postIds``` and make a further request to obtain the content for that post.
-
+  
+  
+Problems:  
+  
+  When using the hackernews api ```https://github.com/HackerNews/API``` I didn't see an option to limit the number of posts returned.  
+    
+  By default it returns up to 500 top posts, which is an unneccessary amount for this command line utility. Ideally I'd only want to retrieve the amount the user specifies.
 
