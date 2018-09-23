@@ -8,23 +8,23 @@ Setup:
 
 Run:
 
-```node app.js                 // returns 10 posts by default```
+```node hacker_news_scraper.js             &nbsp;&nbsp;&nbsp;&nbsp;// returns 10 posts by default```
 
-```node app.js --posts 2       // get the first 2 posts``` 
+```node hacker_news_scraper.js --posts 2   &nbsp;&nbsp;&nbsp;&nbsp;// get the first 2 posts``` 
 
 Sample Output:
 
 ```
-[ { author: 'MKais',
-    points: 280,
-    uri: 'http://haya2now.jp/en.html',
-    title: 'Hayabusa2 Now',
+[ { author: 'TheAuditor',
+    points: 29,
+    uri: 'https://www.quantamagazine.org/machine-learning-confronts-the-elephant-in-the-room-20180920/',
+    title: 'Machine Learning Confronts the Elephant in the Room',
     rank: 1,
-    comments: 14 },
-  { author: 'samfisher83',
-    points: 81,
-    uri: 'https://www.gamasutra.com/blogs/CBel/20180213/308549/3D_engine_entirely_made_of_MS_Excel_formulae__Enjoy_this_Doomxls_file_.php',
-    title: '3D engine entirely made of MS Excel formulae',
+    comments: 5 },
+  { author: 'anoplus',
+    points: 119,
+    uri: 'https://www.nytimes.com/2018/09/20/opinion/sunday/sleep-school-start-time-screens-teenagers.html',
+    title: 'Let Teenagers Sleep In',
     rank: 2,
-    comments: 9 } ]
+    comments: 12 } ]
 ```
