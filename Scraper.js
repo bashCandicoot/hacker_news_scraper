@@ -65,11 +65,11 @@ class Scraper {
   }
 
   pickFields() {
-    this.posts.map(post => _.pick(post, ['by', 'score', 'url', 'title', 'kids', 'index']));
+    this.pickedPosts = this.posts.map(post => _.pick(post, ['by', 'score', 'url', 'title', 'kids', 'index']));
   }
 
   countKids() {
-    this.postsCountedKids = this.posts.map(post =>
+    this.postsCountedKids = this.pickedPosts.map(post =>
       ({
         ..._.omit(post, ['kids']),
         kids: _.get(post, 'kids.length', 0),
@@ -108,6 +108,7 @@ class Scraper {
         case 'kids': return 'comments';
         case 'index': return 'rank';
         default:
+          break;
       }
     }));
   }
