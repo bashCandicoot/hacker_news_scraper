@@ -6,13 +6,17 @@ Setup:
 
 ```npm install``` 
 
-Run:
-
-```node hacker_news_scraper.js```  
-// returns first 10 posts by default
-
-```node hacker_news_scraper.js --posts 2```  
-// return first 2 posts
+Usage:  
+  
+```Hacker News Scraper  
+  
+Usage:  
+   node hacker_news_scraper.js  
+  
+Options:  
+   -h --help        Show this screen  
+   -v --version     Show version  
+   -p --posts       Retrieve -p number of posts [default: 10]```
 
 Sample Output:
 
