@@ -19,6 +19,10 @@ Options:
    -p --posts       Retrieve -p number of posts [default: 10]
 ```  
   
+Example:  
+  
+```node hacker_news_scraper.js -p 2```  
+ 
 Sample Output:
 
 ```
