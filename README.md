@@ -8,7 +8,8 @@ Setup:
 
 Usage:  
   
-```Hacker News Scraper  
+```
+Hacker News Scraper  
   
 Usage:  
    node hacker_news_scraper.js  
