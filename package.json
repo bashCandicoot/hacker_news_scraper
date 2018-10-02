@@ -2,7 +2,7 @@
   "name": "hacker_news_scraper",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "hacker_news_scraper.js",
   "scripts": {
     "test": "mocha"
   },
