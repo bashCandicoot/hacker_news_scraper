@@ -15,7 +15,7 @@ async function main() {
   scraper.validatePostsFields();
   scraper.renamePostKeys();
 
-  console.log(scraper.renamedPosts);
+  console.log(JSON.stringify(scraper.renamedPosts, null, 2));
 }
 
 
