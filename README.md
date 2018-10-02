@@ -1,6 +1,6 @@
 # Hacker News Scraper (Node.js)
 
-Command line utility to get the current top posts on Hacker News.
+Command line utility to get the current top posts on Hacker News and output them in JSON.
 
 Setup:
 
@@ -30,18 +30,24 @@ Example:
 Output:
 
 ```
-[ { author: 'user982',
-    points: 525,
-    uri: 'https://blog.cryptographyengineering.com/2018/09/23/why-im-leaving-chrome/',
-    title: 'Why I’m leaving Chrome',
-    rank: 1,
-    comments: 40 },
-  { author: 'lowe',
-    points: 29,
-    uri: 'https://fairtrending.com',
-    title: 'Fair Trending: Objectively-Ranked Trending YouTube Videos',
-    rank: 2,
-    comments: 10 } ]
+[
+  {
+    "author": "doppp",
+    "points": 736,
+    "uri": "https://techcrunch.com/2018/10/02/amazon-minimum-wage/",
+    "title": "Amazon increases minimum wage for all U.S. workers to $15 an hour",
+    "rank": 1,
+    "comments": 61
+  },
+  {
+    "author": "jimarcey",
+    "points": 55,
+    "uri": "https://code.fb.com/ai-research/facebook-accelerates-ai-development-with-new-partners-and-production-capabilities-for-pytorch-1-0/",
+    "title": "Facebook launches PyTorch 1.0 with new partners and production capabilities",
+    "rank": 2,
+    "comments": 6
+  }
+]
 ```  
   
 Libraries Used:  
